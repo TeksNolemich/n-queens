@@ -61,8 +61,7 @@
       );
     },
 
-
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
@@ -79,12 +78,38 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      var singleRow = this.attributes[rowIndex];
+      var count = 0;
+      for (var i = 0; i < singleRow.length; i++) {
+        if (singleRow[i] === 1) {
+          count++;
+        }
+        if (count > 1) {
+          return true;
+        }
+      }
+      return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var test = false;
+      var board = this.attributes;
+      for (var attr in board) {
+        var count = 0;
+        if (Array.isArray(board[attr])) {
+          var row = board[attr];
+          for (var spot = 0; spot < row.length; spot++) {
+            if (row[spot] === 1) {
+              count++;
+            }
+          }
+        }
+        if (count > 1) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -94,11 +119,37 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      var board = this.attributes;
+      var colMatchCount = 0;
+      for (var prop in board) {
+        if (Array.isArray(board[prop])) {
+          if (board[prop][colIndex] === 1) {
+            colMatchCount++;
+          }
+        }
+      }
+      if (colMatchCount > 1) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var board = this.attributes;
+      for (var row in board) {
+        var colMatchCount = 0;
+        if (Array.isArray(board[row])) {
+          for (var col = 0; col < board.n; col++) {
+            if (board[col][row] === 1) {
+              colMatchCount++;
+            }
+          }
+        }
+        if (colMatchCount > 1) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -114,6 +165,20 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var board = this.attributes;
+      var diagonalMatchCount = 0;
+      for (var prop in board) {
+        debugger;
+        if (Array.isArray(board[prop])) {
+          var spot = Number(prop);
+          if (board[prop][spot] === 1) {
+            diagonalMatchCount++;
+          }
+        }
+      }
+      if (diagonalMatchCount > 1) {
+        return true; 
+      }
       return false; // fixme
     },
 
