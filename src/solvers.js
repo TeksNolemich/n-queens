@@ -54,16 +54,57 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solutionCount; //fixme
+  var solution = new Board({'n': n});
+ 
+  var result;
+ 
+  if (n === 2 || n === 3) {return solution.rows()};
 
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  var placeQueen = function(row) {
+  //var placeRooks = function(row,column) {
+    if(n === row) {
+      solutionCount = JSON.stringify(solution.rows());
+      result = JSON.parse(solutionCount);
+    } else {
+      for (var col = 0; col < n; col++) {
+        solution.togglePiece(row,col);
+        if(!solution.hasAnyQueenConflictsOn(row, col)) {
+        // if(!board.hasAnyRooksConflicts()) {
+          placeQueen(row+1);
+        }
+        solution.togglePiece(row,col);
+      }
+    }  
+  } 
+  placeQueen(0);
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(result));
+  return result;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var solutionCount = 0; //fixme
+  var solution = new Board({'n': n});
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  if (n === 2 || n === 3) {return solutionCount};
+
+  var placeQueen = function(row) {
+  //var placeRooks = function(row,column) {
+    if(n === row) {
+      solutionCount++; 
+    } else {
+      for (var col = 0; col < n; col++) {
+        solution.togglePiece(row,col);
+        if(!solution.hasAnyQueenConflictsOn(row, col)) {
+        // if(!board.hasAnyRooksConflicts()) {
+          placeQueen(row+1);
+        }
+        solution.togglePiece(row,col);
+      }
+    }  
+  } 
+  placeQueen(0);
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solutionCount;
 };
